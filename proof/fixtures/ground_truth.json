@@ -1,0 +1,21 @@
+{
+  "manifest": {
+    "dataset_id": "flowsense-proof-fixture-v1",
+    "provenance": "SYNTHETIC_FIXTURE",
+    "frames": 6,
+    "resolution": [640, 360],
+    "privacy": "generated rectangles; no people or identity data"
+  },
+  "frames": [
+    {"frame": 0, "objects": [{"id": "gt-a", "bbox": [80, 120, 120, 220]}, {"id": "gt-b", "bbox": [340, 100, 380, 205]}]},
+    {"frame": 1, "objects": [{"id": "gt-a", "bbox": [92, 120, 132, 220]}, {"id": "gt-b", "bbox": [340, 108, 380, 213]}]},
+    {"frame": 2, "objects": [{"id": "gt-a", "bbox": [104, 120, 144, 220]}, {"id": "gt-b", "bbox": [340, 116, 380, 221]}]},
+    {"frame": 3, "objects": [{"id": "gt-a", "bbox": [116, 120, 156, 220]}, {"id": "gt-b", "bbox": [340, 124, 380, 229]}]},
+    {"frame": 4, "objects": [{"id": "gt-a", "bbox": [128, 120, 168, 220]}, {"id": "gt-b", "bbox": [340, 132, 380, 237]}]},
+    {"frame": 5, "objects": [{"id": "gt-a", "bbox": [140, 120, 180, 220]}, {"id": "gt-b", "bbox": [340, 140, 380, 245]}]}
+  ],
+  "dwell_seconds": {"gt-a:snacks": 8.0, "gt-b:promo": 14.0},
+  "projected_points": [[0.02, 0.01], [1.01, 0.00], [1.00, 1.02], [-0.01, 0.99]],
+  "target_points": [[0, 0], [1, 0], [1, 1], [0, 1]],
+  "latency_ms": [36.4, 38.2, 37.1, 42.7, 39.8, 41.2, 40.1, 37.6]
+}

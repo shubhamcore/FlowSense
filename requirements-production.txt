@@ -1,0 +1,19 @@
+# Production deployment dependencies. The zero-dependency hackathon preview still runs with `python server.py`.
+fastapi>=0.115,<1
+uvicorn[standard]>=0.32,<1
+pydantic>=2.9,<3
+sqlalchemy[asyncio]>=2.0.36,<3
+asyncpg>=0.30,<1
+redis>=5.2,<6
+rq>=2.1,<3
+# Ultralytics exposes YOLO11 and RT-DETR plus ByteTrack / BoT-SORT tracker configs.
+ultralytics>=8.3.0,<9
+opencv-python-headless>=4.10,<5
+boto3>=1.35,<2
+python-jose[cryptography]>=3.3,<4
+prometheus-client>=0.21,<1
+opentelemetry-api>=1.28,<2
+opentelemetry-sdk>=1.28,<2
+pytest>=8.3,<9
+httpx>=0.28,<1
+locust>=2.32,<3

@@ -1,0 +1,81 @@
+services:
+  postgres:
+    image: timescale/timescaledb:latest-pg16
+    environment:
+      POSTGRES_DB: flowsense
+      POSTGRES_USER: flowsense
+      POSTGRES_PASSWORD: change-me-local-only
+    ports: ["5432:5432"]
+    volumes:
+      - flowsense_pg:/var/lib/postgresql/data
+      - ../production/schema.sql:/docker-entrypoint-initdb.d/001_schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U flowsense -d flowsense"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    ports: ["6379:6379"]
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes: ["flowsense_redis:/data"]
+
+  minio:
+    image: minio/minio:latest
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: flowsense
+      MINIO_ROOT_PASSWORD: change-me-local-only
+    ports: ["9000:9000", "9001:9001"]
+    volumes: ["flowsense_minio:/data"]
+
+  api:
+    build:
+      context: ..
+      dockerfile: Dockerfile.production
+    command: uvicorn production.api:app --host 0.0.0.0 --port 8080
+    environment:
+      ENVIRONMENT: development
+      JWT_SECRET: local-only-change-me
+      DATABASE_URL: postgresql+asyncpg://flowsense:change-me-local-only@postgres:5432/flowsense
+      REDIS_URL: redis://redis:6379/0
+      S3_ENDPOINT_URL: http://minio:9000
+      S3_BUCKET: flowsense-raw
+      RAW_RETENTION_HOURS: 24
+      DERIVED_RETENTION_DAYS: 90
+    ports: ["8080:8080"]
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_started }
+      minio: { condition: service_started }
+
+  gpu-worker:
+    build:
+      context: ..
+      dockerfile: Dockerfile.production
+    command: python -m production.worker
+    environment:
+      REDIS_URL: redis://redis:6379/0
+      GPU_QUEUE: flowsense-gpu-0
+      YOLO_MODEL: yolo11n.pt
+      CUDA_VISIBLE_DEVICES: "0"
+    depends_on:
+      redis: { condition: service_started }
+    # On a GPU host add the NVIDIA runtime/device reservation here.
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices: [{ capabilities: [gpu] }]
+
+  prometheus:
+    image: prom/prometheus:v2.54.1
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports: ["9090:9090"]
+    depends_on: [api]
+
+volumes:
+  flowsense_pg:
+  flowsense_redis:
+  flowsense_minio:

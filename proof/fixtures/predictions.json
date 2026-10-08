@@ -1,0 +1,11 @@
+{
+  "frames": [
+    {"frame": 0, "objects": [{"id": "trk-7", "bbox": [81, 120, 121, 220]}, {"id": "trk-2", "bbox": [340, 101, 380, 206]}]},
+    {"frame": 1, "objects": [{"id": "trk-7", "bbox": [93, 120, 133, 220]}, {"id": "trk-2", "bbox": [340, 108, 380, 213]}]},
+    {"frame": 2, "objects": [{"id": "trk-7", "bbox": [105, 120, 145, 220]}, {"id": "trk-2", "bbox": [340, 116, 380, 221]}]},
+    {"frame": 3, "objects": [{"id": "trk-7", "bbox": [117, 120, 157, 220]}, {"id": "trk-2", "bbox": [340, 124, 380, 229]}]},
+    {"frame": 4, "objects": [{"id": "trk-7", "bbox": [129, 120, 169, 220]}, {"id": "trk-2", "bbox": [340, 132, 380, 237]}]},
+    {"frame": 5, "objects": [{"id": "trk-7", "bbox": [141, 120, 181, 220]}, {"id": "trk-2", "bbox": [340, 140, 380, 245]}]}
+  ],
+  "dwell_seconds": {"gt-a:snacks": 8.4, "gt-b:promo": 13.1}
+}
